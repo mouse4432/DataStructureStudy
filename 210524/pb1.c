@@ -80,7 +80,6 @@ int main(){
                     print_path[idx++] = path[tmp];
                     tmp = path[tmp];
                 }
-                print_path[idx] = node;
 
                 for(int j=idx-1; j>=0; j--)
                     printf("( %d) ", print_path[j]);
