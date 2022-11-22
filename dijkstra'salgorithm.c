@@ -27,15 +27,14 @@ int choose( int n) {
 
 int shortestPath(int v, int n, int path, int fin) {
 	int i, u, w;
-	for (i = 0; i < n; i++) {//�ʱ�ȸ
+	for (i = 0; i < n; i++) {//ÃÊ±âÈ¸
 		found[i] = FALSE;
 		distance[i] = cost[v][i];
 	}
-	found[v] = TRUE;//���� ���� �湮 ǥ
+	found[v] = TRUE;//½ÃÀÛ Á¤Á¡ ¹æ¹® Ç¥
 	distance[v] = 0;
 	path = 0;
 	for (i = 0; i < n-1; i++) {
-		//print_status1();
 		u = choose(n);
 		found[u] = TRUE;
 		for (w = 0; w < n; w++)
@@ -43,11 +42,6 @@ int shortestPath(int v, int n, int path, int fin) {
 				if (distance[u] + cost[u][w] < distance[w]) {
 					distance[w] = distance[u] + cost[u][w];
 				}
-		/*printf("distance: %d ", distance[i]);
-		for (int k = 0; k <= path; k++) {
-			printf("%d ", Path[k]);
-		}
-		puts(" ");*/
 	}
 	return path;
 }
