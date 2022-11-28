@@ -24,7 +24,6 @@ void partition(int low, int high){
     for(int i=low+1; i<=high; i++){
         if(S[i].score<pivotitem){
             j++;
-            tmp;
             tmp = S[i];
             S[i] = S[j];
             S[j] = tmp;

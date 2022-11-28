@@ -13,7 +13,7 @@ RC S[100];
 
 void merge2(int low, int mid, int high){
     int i = low, j=mid+1, k = 0;
-    int idx = high-low+1;
+    // int idx = high-low+1;
     RC U[100];
     while(i<=mid && j<=high)
         U[k++] = (S[i].score > S[j].score) ? S[i++] : S[j++];
