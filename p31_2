@@ -1,0 +1,64 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define SWAP(x,y,temp)((temp)=(x),(x)=(y),(y)=(temp))
+
+typedef struct Element {
+	char name[100];
+	int age;
+}element;
+
+
+void quickSort(element a[], int left, int right);
+void printList(element e[], int n);
+
+int main(void) {
+	int size;
+	int i = 0;
+	FILE* fp = fopen("in.txt", "r");
+	fscanf(fp, "%d", &size);
+	element* e = malloc(sizeof(element) * size);
+
+
+	for (i = 0; i < size; i++) {
+		fscanf(fp, "%s %d", &e[i].name, &e[i].age);
+
+	}
+	printf("before quick sort>>\n");
+	printList(e, size);
+	quickSort(e, 0, size - 1);
+	printf("\nafter quick sort>>\n");
+	printList(e, size);
+
+	free(e);
+
+}
+
+void quickSort(element a[], int left, int right) {
+	int pivot, i, j;
+	element temp;
+	if (left < right) {
+		i = left; j = right + 1;
+		pivot = a[right].age;
+		do {
+			do {
+				i++;
+			} while (a[i].age < pivot);
+			do {
+				j--;
+			} while (a[j].age > pivot);
+			if (i < j) {
+				SWAP(a[i], a[j], temp);
+			}
+		} while (i < j);
+		SWAP(a[left], a[j], temp);
+		quickSort(a, left, j - 1);
+		quickSort(a, j + 1, right);
+	}
+}
+
+void printList(element e[], int n) {
+	for (int i = 0; i < n; i++) {
+		printf("%5s: %2d\n", e[i].name, e[i].age);
+	}
+}
