@@ -1,0 +1,96 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 100
+
+typedef struct Element {
+	char name[100];
+	int age;
+}element;
+
+void merge(element initList[], element mergeList[], int i, int m, int n);
+void mergePass(element initList[], element mergedList[], int n, int s);
+void mergeSort(element a[], int n);
+void printList(element e[], int n);
+
+int main(void) {
+	int size;
+	int i = 0;
+	FILE* fp = fopen("in.txt", "r");
+	fscanf(fp, "%d", &size);
+	element* e = (element*)malloc(sizeof(element) * size);
+
+
+	for (i = 0; i < size; i++) {
+		fscanf(fp, "%s %d", &e[i].name, &e[i].age);
+
+	}
+	printf("before merge sort>>\n");
+	printList(e, size);
+	mergeSort(e, size);
+	printf("\nafter merge sort>>\n");
+	printList(e, size);
+
+	free(e);
+
+}
+
+void merge(element initList[], element mergeList[], int i, int m, int n) {
+	int j, k, t;
+	j = m + 1;
+	k = i;
+
+	while (i <= m && j <= n) {
+		if (initList[i].age <= initList[j].age) {
+			mergeList[k++] = initList[i++];
+		}
+		else {
+			mergeList[k++] = initList[j++];
+		}
+	}
+
+	if (i > m) {
+		for (t = j; t <= n; t++) {
+			mergeList[t] = initList[t];
+		}
+	}
+	else {
+		for (t = i; t <= m; t++) {
+			mergeList[k + t - i] = initList[t];
+		}
+	}
+}
+
+void mergePass(element initList[], element mergedList[], int n, int s) {
+	int i, j;
+	for (i = 1; i <= n - 2 * s + 1; i += 2 * s) {
+		merge(initList, mergedList, i, i + s - 1, i + 2 * s - 1);
+	}
+	if (i + s - 1 < n) {
+		merge(initList, mergedList, i, i + s - 1, n);
+	}
+	else {
+		for (j = i; j <= n; j++) {
+			mergedList[j] = initList[j];
+		}
+	}
+}
+
+void mergeSort(element a[], int n) {
+	int s = 1;
+	element extra[MAX];
+
+	while (s < n) {
+		mergePass(a, extra, n, s);
+		s *= 2;
+		mergePass(extra, a, n, s);
+		s *= 2;
+	}
+}
+
+
+void printList(element e[], int n) {
+	for (int i = 0; i < n; i++) {
+		printf("%5s: %2d\n", e[i].name, e[i].age);
+	}
+}
